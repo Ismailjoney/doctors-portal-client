@@ -1,11 +1,38 @@
 import { format } from 'date-fns';
 import React from 'react';
 
-const BookingModal = ({ treatment, selectedDate }) => {
+const BookingModal = ({ treatment, setTreatment, selectedDate }) => {
     //console.log(treatment)
     const { name, slots } = treatment;//treatment hocce appionments options
 
     const date = format(selectedDate, "PP")
+
+    const handleBooking = event => {
+        event.preventDefault()
+
+        const form = event.target;
+        const slot = form.slot.value;
+        const name = form.name.value;
+        const email = form.email.value;
+        const phone = form.phone.value;
+
+        console.log(date, slot, name, email, phone);
+
+        const Booking = {
+            treatmentName : name,
+            appionmentDate : date,
+            slot,
+            paitentName : name,
+            email,
+            phone,
+
+        }
+        setTreatment(null)
+        console.log( Booking);
+
+    }
+
+
     return (
         <>
             <input type="checkbox" id="Booking-Modal" className="modal-toggle" />
@@ -13,9 +40,10 @@ const BookingModal = ({ treatment, selectedDate }) => {
                 <div className="modal-box relative">
                     <label htmlFor="Booking-Modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <h3 className="text-lg font-bold">{name}</h3>
-                    <form className='mt-8 grid grid-cols-1 gap-3'>
-                        <input type="text" disabled value={date} className="input input-bordered w-full" />
-                        <select className="select select-bordered w-full  ">
+
+                    <form onSubmit={handleBooking} className='grid grid-cols-1 gap-3 mt-10'>
+                        <input type="text" disabled value={date} className="input w-full input-bordered " />
+                        <select name="slot" className="select select-bordered w-full">
                             {
                                 slots.map((slot, i) => <option
                                     value={slot}
@@ -23,10 +51,11 @@ const BookingModal = ({ treatment, selectedDate }) => {
                                 >{slot}</option>)
                             }
                         </select>
-                        <input type="text" placeholder="Type here" className="input input-bordered w-full" />
-                        <input type="text" placeholder="Type here" className="input input-bordered w-full" />
-                        <input type="text" placeholder="Type here" className="input input-bordered w-full" />
-                        <input className='btn btn-primary' type="button" value="Submit" />
+                        <input name="name" type="text" placeholder="Your Name" className="input w-full input-bordered" />
+                        <input name="email" type="email" placeholder="Email Address" className="input w-full input-bordered" />
+                        <input name="phone" type="text" placeholder="Phone Number" className="input w-full input-bordered" />
+                        <br />
+                        <input className='btn btn-accent w-full' type="submit" value="Submit" />
                     </form>
                 </div>
             </div>

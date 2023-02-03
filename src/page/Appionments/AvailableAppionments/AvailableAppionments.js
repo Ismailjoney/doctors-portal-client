@@ -1,37 +1,38 @@
+import { format } from 'date-fns/esm';
 import React, { useEffect, useState } from 'react';
-import { format } from 'date-fns';
-import AppionmentsOptions from './AppionmentsOptions';
-import BookingModal from '../BookingModal/BookingModal';
+import AppionmentsOptions from '../AvailableAppionments/AppionmentsOptions.js'
+import BookingModal from '../BookingModal/BookingModal.js';
 
 const AvailableAppionments = ({ selectedDate }) => {
-    const [appionmentsOptions, setAppionmntsOptions] = useState([])//appionments data
-    const [treatment, setTreatment] = useState(null)
+    const [appointmentOptions, setAppointmentOptions] = useState([]);
+    const [treatment, setTreatment] = useState(null);
 
-    //appionments options slote:
     useEffect(() => {
         fetch('appionment.json')
             .then(res => res.json())
-            .then(data => setAppionmntsOptions(data))
+            .then(data => setAppointmentOptions(data))
     }, [])
     return (
-        <section className='mt-2 my-28'>
-            <p className='text-center text-primary font-bold'> You have Selected: {format(selectedDate, 'PPPP')}</p>
-            <div className='grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+        <section className='my-16'>
+            <p className='text-center text-secondary font-bold'>Available Appointments on {format(selectedDate, 'PP')}</p>
+            <div className='grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-6'>
                 {
-                    appionmentsOptions.map(options => <AppionmentsOptions
+                    appointmentOptions.map(options => <AppionmentsOptions
                         key={options._id}
                         options={options}
-                        setTreatment={setTreatment}//state decleare kore props akare pathano hoyece
+                        setTreatment={setTreatment}
                     ></AppionmentsOptions>)
                 }
             </div>
             {
                 treatment &&
                 <BookingModal
-                    treatment={treatment}//treatment hocce appionments options
                     selectedDate={selectedDate}
+                    treatment={treatment}
+                    setTreatment={setTreatment}
                 ></BookingModal>
             }
+
         </section>
     );
 };
