@@ -12,17 +12,17 @@ const BookingModal = ({ treatment, setTreatment, selectedDate }) => {
 
         const form = event.target;
         const slot = form.slot.value;
-        const name = form.name.value;
+        const paitentName = form.name.value;
         const email = form.email.value;
         const phone = form.phone.value;
 
-        console.log(date, slot, name, email, phone);
+        //console.log(date, slot, paitentName, email, phone);
 
         const Booking = {
             treatmentName : name,
             appionmentDate : date,
             slot,
-            paitentName : name,
+            paitentName,
             email,
             phone,
 
