@@ -1,17 +1,42 @@
 import { format } from 'date-fns/esm';
 import React, { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
+import Loading from '../../Shared/Loading/Loading.js';
 import AppionmentsOptions from '../AvailableAppionments/AppionmentsOptions.js'
 import BookingModal from '../BookingModal/BookingModal.js';
 
 const AvailableAppionments = ({ selectedDate }) => {
-    const [appointmentOptions, setAppointmentOptions] = useState([]);
     const [treatment, setTreatment] = useState(null);
+    const date = format(selectedDate, 'PP')
 
-    useEffect(() => {
-        fetch('appionment.json')
-            .then(res => res.json())
-            .then(data => setAppointmentOptions(data))
-    }, [])
+    //useQuery object 2 ta props nei frist queryKey(cassing er jorno unique key use kora hoi) 2nd queryFn
+
+     //Option 1 --> data load backend use async await
+        const {data:appointmentOptions = [], refetch, isLoading } = useQuery({
+        queryKey : ['appionmentoptions'],
+        queryFn :async () =>{
+            const res = await fetch(`http://localhost:5000/appionmentoptions?date=${date}`)
+            const data = await res.json();
+            return data;
+        }
+    })
+
+    //Option 2 --> data load backend use fetch and .then
+
+    // const {data:appointmentOptions = [] } = useQuery({
+    //     queryKey : ['appionmentoptions'],
+    //     queryFn : () => 
+    //          fetch('http://localhost:5000/appionmentoptions')
+    //          .then =res.json()
+    // })
+
+
+    if(isLoading){
+        return <Loading></Loading>
+    }
+   
+
+
     return (
         <section className='my-16'>
             <p className='text-center text-secondary font-bold'>Available Appointments on {format(selectedDate, 'PP')}</p>
@@ -30,6 +55,7 @@ const AvailableAppionments = ({ selectedDate }) => {
                     selectedDate={selectedDate}
                     treatment={treatment}
                     setTreatment={setTreatment}
+                    refetch={refetch}
                 ></BookingModal>
             }
 
@@ -39,13 +65,9 @@ const AvailableAppionments = ({ selectedDate }) => {
 
 export default AvailableAppionments;
 
-//step - 1;
-//fetch kore data load korlam 
-// state a set korlam 
-// map kore data appionmentsOptions component a pathalam
-// appionmentsOptions a datar info single card akare dekhano hoyece UI te abong akta btn set kolam modal open korar jorno --- htmlFor="Booking-Modal" use korlam jeta modal a id hisebe use kora (<BookingModal></BookingModal>) hoyece orthat ai btn a click korle modal open hbe.
+ 
 
-//step-2
+ 
 //modal akta central jaigai banalam sudhu modal banalei hbe na seta website a use korte hbe tai seta AvailableAppionments data pathanor subihar jorno prants a  a use korlam 
 //modal a data dekhanor jorno parent component a (AvailableAppionments.js) akta state  set korlam abong seta props hisebe AppionmentsOptions.js componet a pathalam ---> setTreatment={setTreatment}
 // abong seta onClick er maddome map kora option ta pathai dilam ----> onClick={() => setTreatment(options) orthat btn a click korle option gula (name,slots) setTreatment a set hye jabe.

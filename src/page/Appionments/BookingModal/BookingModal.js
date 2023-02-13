@@ -1,11 +1,14 @@
 import { format } from 'date-fns';
-import React from 'react';
+import React, { useContext } from 'react';
+import { toast } from 'react-hot-toast';
+import { AuthorContext } from '../../../context/ContextProvider';
 
-const BookingModal = ({ treatment, setTreatment, selectedDate }) => {
+const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
     //console.log(treatment)
     const { name, slots } = treatment;//treatment hocce appionments options
-
     const date = format(selectedDate, "PP")
+    const { user } = useContext(AuthorContext)
+
 
     const handleBooking = event => {
         event.preventDefault()
@@ -18,17 +21,41 @@ const BookingModal = ({ treatment, setTreatment, selectedDate }) => {
 
         //console.log(date, slot, paitentName, email, phone);
 
-        const Booking = {
-            treatmentName : name,
-            appionmentDate : date,
+        const booking = {
+            treatmentName: name,
+            appionmentDate: date,
             slot,
             paitentName,
             email,
             phone,
 
         }
-        setTreatment(null)
-        console.log( Booking);
+        //post data
+        fetch(`http://localhost:5000/bookings`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(booking)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.acknowledged) {
+                //     //mdl er btn a click korar por jno auto metice cole jai se jorno use kora hoyece
+                    setTreatment(null)
+                     toast.success('Booking SucessFull')
+                     refetch()
+                }
+                else{
+                    toast.error(data.message)
+                }
+
+            })
+
+
+
+        console.log(booking);
 
     }
 
@@ -51,9 +78,9 @@ const BookingModal = ({ treatment, setTreatment, selectedDate }) => {
                                 >{slot}</option>)
                             }
                         </select>
-                        <input name="name" type="text" placeholder="Your Name" className="input w-full input-bordered" />
-                        <input name="email" type="email" placeholder="Email Address" className="input w-full input-bordered" />
-                        <input name="phone" type="text" placeholder="Phone Number" className="input w-full input-bordered" />
+                        <input name="name" type="text" defaultValue={user?.displayName} disabled placeholder="Your Name" className="input w-full input-bordered" />
+                        <input name="email" type="email" defaultValue={user?.email} disabled placeholder="Email Address" className="input w-full input-bordered" />
+                        <input name="phone" type="text" placeholder="Phone Number" className="input w-full input-bordered" required/>
                         <br />
                         <input className='btn btn-accent w-full' type="submit" value="Submit" />
                     </form>
