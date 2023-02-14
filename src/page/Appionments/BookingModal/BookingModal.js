@@ -5,7 +5,7 @@ import { AuthorContext } from '../../../context/ContextProvider';
 
 const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
     //console.log(treatment)
-    const { name, slots } = treatment;//treatment hocce appionments options
+    const {  name: treatmentName, slots } = treatment;//treatment hocce appionments options
     const date = format(selectedDate, "PP")
     const { user } = useContext(AuthorContext)
 
@@ -15,17 +15,17 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
 
         const form = event.target;
         const slot = form.slot.value;
-        const paitentName = form.name.value;
+        const name = form.name.value;
         const email = form.email.value;
         const phone = form.phone.value;
 
         //console.log(date, slot, paitentName, email, phone);
 
         const booking = {
-            treatmentName: name,
+            treatment:  treatmentName,
+            patient: name,
             appionmentDate: date,
             slot,
-            paitentName,
             email,
             phone,
 
@@ -44,7 +44,7 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
                 if (data.acknowledged) {
                 //     //mdl er btn a click korar por jno auto metice cole jai se jorno use kora hoyece
                     setTreatment(null)
-                     toast.success('Booking SucessFull')
+                     toast.success('Booking confirmed')
                      refetch()
                 }
                 else{
@@ -66,7 +66,7 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
             <div className="modal">
                 <div className="modal-box relative">
                     <label htmlFor="Booking-Modal" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                    <h3 className="text-lg font-bold">{name}</h3>
+                    <h3 className="text-lg font-bold">{treatmentName}</h3>
 
                     <form onSubmit={handleBooking} className='grid grid-cols-1 gap-3 mt-10'>
                         <input type="text" disabled value={date} className="input w-full input-bordered " />
@@ -80,7 +80,7 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
                         </select>
                         <input name="name" type="text" defaultValue={user?.displayName} disabled placeholder="Your Name" className="input w-full input-bordered" />
                         <input name="email" type="email" defaultValue={user?.email} disabled placeholder="Email Address" className="input w-full input-bordered" />
-                        <input name="phone" type="text" placeholder="Phone Number" className="input w-full input-bordered" required/>
+                        <input name="phone" type="text" placeholder="Phone Number" className="input w-full input-bordered"  />
                         <br />
                         <input className='btn btn-accent w-full' type="submit" value="Submit" />
                     </form>

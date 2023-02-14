@@ -22,10 +22,10 @@ const Singup = () => {
                 const userInfo = {
                     displayName: data.name
                 }
-                console.log(userInfo)
+                 
                 updateUser(userInfo)
                     .then(() => {
-                        navigate('/')
+                        userAccountInfo(data.name, data.email)
                     })
                     .catch(err => console.Log(err))
                 toast("Account create sucessFull")
@@ -36,11 +36,28 @@ const Singup = () => {
             })
     }
 
+    //save users account info in my database
+    const userAccountInfo = (name,email) => {
+        const user = {name, email}
+        fetch(`http://localhost:5000/users`,{
+            method: 'POST',
+            headers:{
+                'content-type' : 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        .then(res => res.json())
+        .then(data => {
+            navigate('/')
+        })
+    }
+
 
     return (
         <div className='h-[600px] w-full flex justify-center items-center'>
             <div className='w-96 p-7'>
                 <h2 className='text-xl text-center'>SingUp</h2>
+
                 <form onSubmit={handleSubmit(handdleSingIn)}>
                     <div className="form-control w-full max-w-xs">
                         <label htmlFor="name">Name</label>
@@ -59,7 +76,6 @@ const Singup = () => {
                                     message: "Entered value does not match email format"
                                 }
                             })}
-
                             className="input input-bordered w-full max-w-xs" ></input>
                         {errors.email && <p className='text-red-600'>{errors.email?.message}</p>}
                     </div>
@@ -79,7 +95,6 @@ const Singup = () => {
                             })}
                             className="input input-bordered w-full max-w-xs" ></input>
                         {errors.password && <p className='text-red-600'>{errors.password?.message}</p>}
-
                     </div>
                     <div>
                         {
@@ -88,6 +103,7 @@ const Singup = () => {
                     </div>
                     <input className='btn btn-accent w-full mt-4' value="Login" type="submit" />
                 </form>
+
                 <p>Already have an account <Link className='text-secondary' to="/login">Please Login</Link></p>
                 <div className="divider">OR</div>
                 <button className='btn btn-outline w-full'>CONTINUE WITH GOOGLE</button>

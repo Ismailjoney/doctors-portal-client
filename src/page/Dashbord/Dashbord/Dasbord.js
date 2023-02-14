@@ -1,9 +1,10 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
 const Dasbord = () => {
     return (
         <div>
-            <p>comming soo0000000000n</p>
+            comming soon
         </div>
     );
 };
