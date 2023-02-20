@@ -5,12 +5,16 @@ import { AuthorContext } from '../../../context/ContextProvider';
 const MyAppionment = () => {
     const {user} = useContext(AuthorContext)
 
-    const url = `http://localhost:5000/bookings?email=${user?.email}`
+    const url = `http://localhost:5000/bookings?email=${user?.email}`;
 
     const {data: bookings = []} = useQuery({
         queryKey:['bookings', user?.email],
         queryFn: async () => {
-            const res = await fetch(url)
+            const res = await fetch( url, {
+                headers: {
+                    authorization: `bearer ${localStorage.getItem('userToken')}`
+                }
+            })
             const data = await res.json()
             return data;
         }
@@ -33,7 +37,8 @@ const MyAppionment = () => {
                     </thead>
                     <tbody>
                       {
-                        bookings.map((booked, i) =>   <tr>
+                       
+                        bookings?.map((booked, i) =>   <tr key ={booked._id}>
                             <th>{i+1}</th>
                             <td>{booked.patient}</td>
                             <td>{booked.treatment}</td>

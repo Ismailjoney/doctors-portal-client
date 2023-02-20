@@ -2,24 +2,37 @@ import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthorContext } from '../../context/ContextProvider';
+import useToken from '../../hooks/useToken';
 
 
 const Login = () => {
     const { singUp } = useContext(AuthorContext)
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [loginError, setLoginError] = useState('')
+     //user email observer state when user log in 
+    const [createUserLogin, setcreateUserLogin] = useState('')
+    //get jwt token from hooks folder
+    //createUserEmail hocce user er email
+    //same work singUp page
+    const [token] = useToken(createUserLogin)
+
     const location = useLocation();
     const navigate = useNavigate();
 
     const from = location.state?.from?.pathname || '/';
+
+    if(token){
+        navigate(from, {replace: true})
+    }
 
     const handdleLogin = data => {
         setLoginError('')
         singUp(data.email, data.password)
             .then(res => {
                 const user = res.user;
-                navigate(from, {replace: true})
                 console.log(user)
+                setcreateUserLogin(data.email)
+                 
             })
             .catch(error => {
                 console.log(error.message)

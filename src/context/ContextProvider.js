@@ -24,6 +24,7 @@ const ContextProvider = ({ children }) => {
     }
 
     const logout = () => {
+        localStorage.removeItem('userToken')
         setLoading(true)
         return signOut(auth)
     }

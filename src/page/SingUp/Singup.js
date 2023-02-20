@@ -3,15 +3,29 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthorContext } from '../../context/ContextProvider';
+import useToken from '../../hooks/useToken';
 
 
 const Singup = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const { createUser, updateUser } = useContext(AuthorContext)
     const [singupError, setSingUpError] = useState('')
+    
+    //user email observer state when user log in
+    const[createUserEmail, setcreateUserEmail] = useState('')
+
+    //get jwt token from hooks folder
+    //createUserEmail hocce user er email
+    //same work login page
+    const [token] = useToken(createUserEmail)
     const navigate = useNavigate()
 
+    if(token){
+        navigate('/')
+    }
+
     const handdleSingIn = data => {
+         
         //akbr error hwar por initialy kno error na thakar jorno
         setSingUpError('')
 
@@ -25,7 +39,7 @@ const Singup = () => {
                  
                 updateUser(userInfo)
                     .then(() => {
-                        userAccountInfo(data.name, data.email)
+                        saveUserAccountInfo(data.name, data.email.toLowerCase())
                     })
                     .catch(err => console.Log(err))
                 toast("Account create sucessFull")
@@ -37,7 +51,7 @@ const Singup = () => {
     }
 
     //save users account info in my database
-    const userAccountInfo = (name,email) => {
+    const saveUserAccountInfo = (name,email) => {
         const user = {name, email}
         fetch(`http://localhost:5000/users`,{
             method: 'POST',
@@ -48,11 +62,13 @@ const Singup = () => {
         })
         .then(res => res.json())
         .then(data => {
-            navigate('/')
+            //user database a save howar por token pabe
+            setcreateUserEmail(email)
         })
     }
 
 
+   
     return (
         <div className='h-[600px] w-full flex justify-center items-center'>
             <div className='w-96 p-7'>
