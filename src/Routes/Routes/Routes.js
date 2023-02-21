@@ -8,6 +8,7 @@ import MyAppionment from "../../page/Dashbord/MyAppionment/MyAppionment";
 import Home from "../../page/Home/Home/Home";
 import Login from "../../page/Login/Login";
 import Singup from "../../page/SingUp/Singup";
+import AdminPrivetRoute from "../PrivetRoute/AdminPrivetRoute";
 import PrivetRoute from "../PrivetRoute/PrivetRoute";
 
 export const router = createBrowserRouter([
@@ -29,7 +30,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/appionment',
-                element: <Appionmrnts></Appionmrnts>
+                element: <Appionmrnts></Appionmrnts> 
             }
         ]
     },
@@ -43,7 +44,7 @@ export const router = createBrowserRouter([
             },
             {
                 path:'/dashbord/allusers',
-                element:<AllUsers></AllUsers>
+                element: <AdminPrivetRoute><AllUsers></AllUsers></AdminPrivetRoute> 
             }
         ]
     }

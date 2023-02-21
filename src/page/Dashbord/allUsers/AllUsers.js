@@ -1,17 +1,34 @@
 import React from 'react';
+import { toast } from 'react-hot-toast';
 import { useQuery } from 'react-query';
 
 const AllUsers = () => {
 
-    const { data: users = [] } = useQuery({
+    const { data: users = [], refetch } = useQuery({
         queryKey: ['users'],
         queryFn: async () => {
             const res = await fetch(`http://localhost:5000/users`)
             const data = await res.json()
-            // console.log(data)
             return data;
         }
     })
+
+    const handdleMakeAdmin = id => {
+        fetch(`http://localhost:5000/users/admin/${id}`,{
+            method: 'PUT',
+            headers: {
+                authorization: `bearer ${localStorage.getItem('userToken')}`
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+            if(data.modifiedCount > 0){
+                toast.success('Admin Added SucessFull')
+                refetch()
+            }
+        })
+    }
 
     return (
         <div>
@@ -23,6 +40,8 @@ const AllUsers = () => {
                             <th></th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Maake Admin</th>
+                            <th>Delete</th>
                             
                         </tr>
                     </thead>
@@ -32,7 +51,10 @@ const AllUsers = () => {
                             <th>{i + 1}</th>
                             <td>{user.name}</td>
                             <td>{user.email}</td>
-                             
+
+                            <td>{user?.role !== 'admin' && <button onClick={ () => handdleMakeAdmin(user._id)} className='btn btn-accent'>Admin</button>}</td>
+
+                            <td><button className='btn btn-xsm'>Delete</button></td>  
                         </tr>)
                         }
                     </tbody>

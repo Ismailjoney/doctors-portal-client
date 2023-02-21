@@ -22,7 +22,7 @@ const Login = () => {
     const from = location.state?.from?.pathname || '/';
 
     if(token){
-        navigate(from, {replace: true})
+        navigate(from, { replace: true });
     }
 
     const handdleLogin = data => {
@@ -30,12 +30,10 @@ const Login = () => {
         singUp(data.email, data.password)
             .then(res => {
                 const user = res.user;
-                console.log(user)
                 setcreateUserLogin(data.email)
                  
             })
             .catch(error => {
-                console.log(error.message)
                 setLoginError(error.message)
             })
     }
