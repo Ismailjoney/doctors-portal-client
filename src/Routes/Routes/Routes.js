@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import DashbordLayOut from "../../Layout/DashbordLayOut";
 import Main from "../../Layout/Main";
 import Appionmrnts from "../../page/Appionments/Appionments/Appionmrnts";
+import AddDoctor from "../../page/Dashbord/addDoctor/AddDoctor";
 import AllUsers from "../../page/Dashbord/allUsers/AllUsers";
 import Dasbord from "../../page/Dashbord/Dashbord/Dasbord";
 import MyAppionment from "../../page/Dashbord/MyAppionment/MyAppionment";
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
             {
                 path:'/dashbord/allusers',
                 element: <AdminPrivetRoute><AllUsers></AllUsers></AdminPrivetRoute> 
+            },
+            {
+                path:'/dashbord/adddoctor',
+                element: <AdminPrivetRoute><AddDoctor></AddDoctor></AdminPrivetRoute> 
             }
         ]
     }
