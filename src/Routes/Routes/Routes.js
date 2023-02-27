@@ -5,6 +5,7 @@ import Appionmrnts from "../../page/Appionments/Appionments/Appionmrnts";
 import AddDoctor from "../../page/Dashbord/addDoctor/AddDoctor";
 import AllUsers from "../../page/Dashbord/allUsers/AllUsers";
 import Dasbord from "../../page/Dashbord/Dashbord/Dasbord";
+import ManageDoctors from "../../page/Dashbord/manageDoctors/ManageDoctors";
 import MyAppionment from "../../page/Dashbord/MyAppionment/MyAppionment";
 import Home from "../../page/Home/Home/Home";
 import Login from "../../page/Login/Login";
@@ -50,6 +51,10 @@ export const router = createBrowserRouter([
             {
                 path:'/dashbord/adddoctor',
                 element: <AdminPrivetRoute><AddDoctor></AddDoctor></AdminPrivetRoute> 
+            },
+            {
+                path:'/dashbord/managedoctors',
+                element: <AdminPrivetRoute><ManageDoctors></ManageDoctors></AdminPrivetRoute> 
             }
         ]
     }

@@ -1,5 +1,5 @@
 import { format } from 'date-fns/esm';
-import React, { useEffect, useState } from 'react';
+import React, {   useState } from 'react';
 import { useQuery } from 'react-query';
 import Loading from '../../Shared/Loading/Loading.js';
 import AppionmentsOptions from '../AvailableAppionments/AppionmentsOptions.js'
