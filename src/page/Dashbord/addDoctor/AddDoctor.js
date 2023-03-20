@@ -22,10 +22,10 @@ const AddDoctor = () => {
             return data;
         }
     })
-
+    
 
     const handdleAddADoctor = data => {
-        //console.log(data.image[0])
+    console.log(data.image[0])
         const image = data.image[0]
         const formData = new FormData();
 
@@ -46,9 +46,7 @@ const AddDoctor = () => {
                         Specialty: data.Specialty,
                         image: imgData.data.url
                     }
-                    console.log(doctor)
-
-
+                   
                     //save doctor info in mongodb database
                     //admin role handdle korte gele jwt token niye kaj kortei hbe
                     fetch(`http://localhost:5000/doctors`, {
@@ -67,10 +65,7 @@ const AddDoctor = () => {
                         })
                 }
             })
-
-
     }
-
 
     if (isLoading) {
         return <Loading></Loading>

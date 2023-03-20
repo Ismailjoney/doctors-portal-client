@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useQuery } from 'react-query';
+import { Link } from 'react-router-dom';
 import { AuthorContext } from '../../../context/ContextProvider';
 
 const MyAppionment = () => {
@@ -33,17 +34,29 @@ const MyAppionment = () => {
                             <th>Treatment name</th>
                             <th>Date</th>
                             <th>Time</th>
+                            <th>Payment</th>
                         </tr>
                     </thead>
                     <tbody>
                       {
-                       
+                       bookings &&
                         bookings?.map((booked, i) =>   <tr key ={booked._id}>
                             <th>{i+1}</th>
                             <td>{booked.patient}</td>
                             <td>{booked.treatment}</td>
                             <td>{booked.appionmentDate}</td>
                             <td>{booked.slot}</td>
+                            <td>
+                                {
+                                     booked.price && !booked.paid &&
+                                     <Link to={`/dashbord/payment/${booked._id}`}>
+                                        <button className='btn btn-sm btn-primary'>Pay</button>
+                                     </Link>
+                                }
+                                {
+                                    booked.price && booked.paid && <span  className='text-primary'>Paid</span>
+                                }
+                            </td>
                         </tr>
                         )
                       }

@@ -5,7 +5,7 @@ import { AuthorContext } from '../../../context/ContextProvider';
 
 const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
     //console.log(treatment)
-    const {  name: treatmentName, slots } = treatment;//treatment hocce appionments options
+    const {  name: treatmentName, slots, price } = treatment;//treatment hocce appionments options
     const date = format(selectedDate, "PP")
     const { user } = useContext(AuthorContext)
 
@@ -28,6 +28,7 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
             slot,
             email,
             phone,
+            price,
 
         }
         //post data
