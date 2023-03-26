@@ -10,6 +10,7 @@ import MyAppionment from "../../page/Dashbord/MyAppionment/MyAppionment";
 import Payment from "../../page/Dashbord/Payment/Payment";
 import Home from "../../page/Home/Home/Home";
 import Login from "../../page/Login/Login";
+import DisplayError from "../../page/Shared/DisplayError/DisplayError";
 import Singup from "../../page/SingUp/Singup";
 import AdminPrivetRoute from "../PrivetRoute/AdminPrivetRoute";
 import PrivetRoute from "../PrivetRoute/PrivetRoute";
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
     {
         path: '/',
         element:<Main></Main>,
+        errorElement :<DisplayError></DisplayError>,
         children: [
             {
                 path:'/',
@@ -40,6 +42,7 @@ export const router = createBrowserRouter([
     {
         path:'/dashbord',
         element: <PrivetRoute><DashbordLayOut></DashbordLayOut></PrivetRoute>,
+        errorElement :<DisplayError></DisplayError>,
         children : [
             {
                 path:'/dashbord',
@@ -59,7 +62,7 @@ export const router = createBrowserRouter([
             },
             {
                 path:'/dashbord/payment/:id',
-                element: <AdminPrivetRoute><Payment></Payment></AdminPrivetRoute>,
+                element:  <Payment></Payment>,
                 loader : ({params}) => fetch(`http://localhost:5000/bookings/${params.id}`)
             }
         ]
