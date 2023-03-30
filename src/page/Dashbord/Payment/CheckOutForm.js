@@ -15,7 +15,7 @@ const CheckOutForm = ({ bookings }) => {
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch("http://localhost:5000/create-payment-intent", {
+    fetch("https://doctors-portal-server-chi-teal.vercel.app/create-payment-intent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -79,6 +79,7 @@ const CheckOutForm = ({ bookings }) => {
     }
 
     if (paymentIntent.status === "succeeded") {
+      console.log('card info', card)
       const payment = {
         price,
         transitionId : paymentIntent.id,
@@ -86,7 +87,7 @@ const CheckOutForm = ({ bookings }) => {
         bookingId : _id
       }
 
-      fetch('', {
+      fetch('https://doctors-portal-server-chi-teal.vercel.app/payments', {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
@@ -96,6 +97,7 @@ const CheckOutForm = ({ bookings }) => {
       })
         .then(res => res.json())
         .then(data => {
+          console.log(data)
           if (data.insertedId) {
             setSucess(`Congratulation Your payment Sucess`)
             setTransitionId(paymentIntent.id)

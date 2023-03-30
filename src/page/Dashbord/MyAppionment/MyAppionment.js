@@ -6,7 +6,7 @@ import { AuthorContext } from '../../../context/ContextProvider';
 const MyAppionment = () => {
     const {user} = useContext(AuthorContext)
 
-    const url = `http://localhost:5000/bookings?email=${user?.email}`;
+    const url = `https://doctors-portal-server-chi-teal.vercel.app/bookings?email=${user?.email}`;
 
     const {data: bookings = []} = useQuery({
         queryKey:['bookings', user?.email],

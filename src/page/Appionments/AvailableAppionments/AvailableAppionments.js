@@ -15,7 +15,7 @@ const AvailableAppionments = ({ selectedDate }) => {
         const {data:appointmentOptions = [], refetch, isLoading } = useQuery({
         queryKey : ['appionmentoptions'],
         queryFn :async () =>{
-            const res = await fetch(`http://localhost:5000/appionmentoptions?date=${date}`)
+            const res = await fetch(`https://doctors-portal-server-chi-teal.vercel.app/appionmentoptions?date=${date}`)
             const data = await res.json();
             return data;
         }
@@ -26,7 +26,7 @@ const AvailableAppionments = ({ selectedDate }) => {
     // const {data:appointmentOptions = [] } = useQuery({
     //     queryKey : ['appionmentoptions'],
     //     queryFn : () => 
-    //          fetch('http://localhost:5000/appionmentoptions')
+    //          fetch('https://doctors-portal-server-chi-teal.vercel.app/appionmentoptions')
     //          .then =res.json()
     // })
 

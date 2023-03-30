@@ -18,9 +18,7 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
         const name = form.name.value;
         const email = form.email.value;
         const phone = form.phone.value;
-
-        //console.log(date, slot, paitentName, email, phone);
-
+ 
         const booking = {
             treatment:  treatmentName,
             patient: name,
@@ -32,7 +30,7 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
 
         }
         //post data
-        fetch(`http://localhost:5000/bookings`, {
+        fetch(`https://doctors-portal-server-chi-teal.vercel.app/bookings`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -41,9 +39,9 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                
                 if (data.acknowledged) {
-                //     //mdl er btn a click korar por jno auto metice cole jai se jorno use kora hoyece
+             //mdl er btn a click korar por jno auto metice cole jai se jorno use kora hoyece
                     setTreatment(null)
                      toast.success('Booking confirmed')
                      refetch()
@@ -54,10 +52,7 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
 
             })
 
-
-
-        console.log(booking);
-
+ 
     }
 
 

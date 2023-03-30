@@ -17,7 +17,7 @@ const AddDoctor = () => {
     const { data: Specialtys = [], isLoading } = useQuery({
         querykey: ['appionmentsspecialty'],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/appionmentsspecialty`)
+            const res = await fetch(`https://doctors-portal-server-chi-teal.vercel.app/appionmentsspecialty`)
             const data = await res.json()
             return data;
         }
@@ -49,7 +49,7 @@ const AddDoctor = () => {
                    
                     //save doctor info in mongodb database
                     //admin role handdle korte gele jwt token niye kaj kortei hbe
-                    fetch(`http://localhost:5000/doctors`, {
+                    fetch(`https://doctors-portal-server-chi-teal.vercel.app/doctors`, {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json',
